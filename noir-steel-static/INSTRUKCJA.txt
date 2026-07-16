@@ -1,0 +1,10 @@
+NOIR STEEL — WERSJA PROSTA DO VERCEL
+
+Ta paczka nie używa Next.js. Dzięki temu nie wymaga folderów app/public i nie wywoła błędu budowania.
+
+1. Na GitHub usuń wszystkie obecne pliki z repozytorium noir-steel albo utwórz nowe repozytorium noir-steel-site.
+2. Wgraj WSZYSTKIE pliki z tej paczki bezpośrednio do głównego poziomu repozytorium.
+3. W głównym widoku GitHub musisz widzieć index.html, vercel.json oraz pliki .jpg.
+4. Nie wgrywaj package.json, layout.js, page.js ani globals.css ze starej paczki.
+5. Vercel: utwórz nowy projekt z tego repozytorium. Framework Preset ustaw na Other, a potem Deploy.
+6. Jeśli używasz starego projektu w Vercel, po zmianie plików kliknij Deployments > Redeploy.
