@@ -77,3 +77,17 @@ footer{background:#080808;color:white;padding:60px clamp(20px,7vw,110px) 35px;di
   font-size:11px;
   letter-spacing:.06em;
 }
+
+
+/* Profesjonalny formularz kontaktowy */
+.form-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.form-consent{display:flex!important;align-items:flex-start!important;gap:12px!important;margin:18px 0!important;text-transform:none!important;letter-spacing:0!important;font-size:12px!important;line-height:1.55!important;color:rgba(18,18,17,.68)!important}
+.form-consent input{width:18px!important;height:18px!important;min-width:18px!important;margin-top:1px!important;accent-color:var(--accent)}
+.form-submit[disabled]{opacity:.58;cursor:wait}
+.form-status{min-height:20px;margin:12px 0 0;font-size:13px;line-height:1.5}
+.form-status.error{color:#8b1e1e}
+.thank-you{min-height:72vh;display:grid;place-items:center;text-align:center;background:var(--paper)}
+.thank-you-inner{max-width:760px;padding:120px 24px}
+.thank-you h1{font-family:Georgia,serif;font-size:clamp(42px,7vw,92px);font-weight:400;line-height:1.02;margin:18px 0 24px}
+.thank-you h1 em{color:var(--accent);font-weight:400}
+.thank-you p{max-width:600px;margin:0 auto 30px;line-height:1.75;color:rgba(18,18,17,.66)}
