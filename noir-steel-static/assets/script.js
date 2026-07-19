@@ -23,38 +23,71 @@ const m=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(m
  if(!form)return;
  const status=document.getElementById('form-status');
  const button=form.querySelector('.form-submit');
+ const label=button?.querySelector('.submit-label');
+ const started=document.getElementById('started_at');
+ const request=document.getElementById('request_id');
+ const draftKey='noirContactDraft';
  const value=id=>document.getElementById(id)?.value?.trim()||'';
- const setStatus=(text,type='')=>{if(!status)return;status.textContent=text;status.className='form-status'+(type?' '+type:'')};
+ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ const uuid=()=>crypto.randomUUID?crypto.randomUUID().replaceAll('-',''):(Date.now().toString(36)+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2));
+ const setStatus=(text,type='')=>{if(!status)return;status.textContent=text;status.className='form-status'+(type?' '+type:'');if(text)status.focus?.()};
+ const setLoading=loading=>{if(!button)return;button.disabled=loading;button.classList.toggle('is-loading',loading);button.setAttribute('aria-busy',String(loading));if(label)label.textContent=loading?'Wysyłanie…':'Wyślij zapytanie'};
+ const clearErrors=()=>{form.querySelectorAll('[aria-invalid="true"]').forEach(el=>el.removeAttribute('aria-invalid'));form.querySelectorAll('.field-error').forEach(el=>el.remove())};
+ const showFieldError=(field,message)=>{field.setAttribute('aria-invalid','true');const error=document.createElement('p');error.className='field-error';error.textContent=message;field.closest('label')?.after(error)};
+ const saveDraft=()=>{const data={name:value('name'),phone:value('phone'),email:value('email'),size:value('size'),type:value('type'),city:value('city'),message:value('message')};sessionStorage.setItem(draftKey,JSON.stringify(data))};
+ const restoreDraft=()=>{try{const data=JSON.parse(sessionStorage.getItem(draftKey)||'{}');Object.entries(data).forEach(([key,val])=>{const el=document.getElementById(key);if(el&&!el.value)el.value=val})}catch{sessionStorage.removeItem(draftKey)}};
+ if(started)started.value=String(Date.now());
+ if(request)request.value=uuid();
+ restoreDraft();
+ form.addEventListener('input',saveDraft);
+ form.addEventListener('change',saveDraft);
  form.addEventListener('submit',async event=>{
    event.preventDefault();
+   clearErrors();
    setStatus('');
-   if(!form.checkValidity()){
+   const phone=document.getElementById('phone');
+   const email=document.getElementById('email');
+   if(phone&&phone.value.replace(/\D/g,'').length<7)showFieldError(phone,'Podaj poprawny numer telefonu.');
+   if(email&&!email.validity.valid)showFieldError(email,'Podaj poprawny adres e-mail.');
+   if(!form.checkValidity()||form.querySelector('[aria-invalid="true"]')){
      form.reportValidity();
      setStatus('Uzupełnij wymagane pola i zaznacz zgodę.','error');
+     form.querySelector(':invalid,[aria-invalid="true"]')?.focus();
      return;
    }
    const shape=document.querySelector('input[name="shape"]:checked')?.value||'Nie wybrano';
    const mechanism=document.querySelector('input[name="mechanism"]:checked')?.value||((value('type')==='Stół rozkładany')?'Nie wybrano':'Nie dotyczy');
    const payload={
-     name:value('name'), phone:value('phone'), email:value('email'), size:value('size'),
-     type:value('type'), mechanism, shape, city:value('city'), message:value('message'),
-     website:value('website'), consent:document.getElementById('consent')?.checked===true,
-     page:location.href
+     name:value('name'),phone:value('phone'),email:value('email'),size:value('size'),
+     type:value('type'),mechanism,shape,city:value('city'),message:value('message'),
+     website:value('website'),started_at:value('started_at'),request_id:value('request_id'),
+     consent:document.getElementById('consent')?.checked===true,page:location.href
    };
-   button.disabled=true;
-   button.dataset.label=button.textContent;
-   button.textContent='Wysyłanie…';
-   setStatus('Wysyłamy Twoje zapytanie…');
+   setLoading(true);
+   setStatus('Bezpiecznie wysyłamy Twoje zapytanie…');
    try{
-     const response=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-     const result=await response.json().catch(()=>({}));
-     if(!response.ok)throw new Error(result.error||'Nie udało się wysłać formularza.');
+     let response,result;
+     for(let attempt=0;attempt<2;attempt+=1){
+       try{
+         response=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+         result=await response.json().catch(()=>({}));
+         if(response.ok)break;
+         if(attempt===0&&(response.status===429||response.status>=500)){await wait(900);continue}
+         throw new Error(result.error||'Nie udało się wysłać formularza.');
+       }catch(error){
+         if(attempt===0&&!response){await wait(900);continue}
+         throw error;
+       }
+     }
+     if(!response?.ok)throw new Error(result?.error||'Nie udało się wysłać formularza.');
+     sessionStorage.removeItem(draftKey);
      sessionStorage.setItem('noirLeadSubmitted','1');
+     setStatus('Wiadomość została wysłana. Za chwilę zobaczysz potwierdzenie.','success');
+     await wait(350);
      location.href='/dziekujemy';
    }catch(error){
      setStatus(error.message||'Wystąpił błąd. Zadzwoń pod numer 508 951 101 lub napisz na kontakt@noirsteel.pl.','error');
-     button.disabled=false;
-     button.textContent=button.dataset.label||'Wyślij zapytanie';
+     setLoading(false);
    }
  });
 })();

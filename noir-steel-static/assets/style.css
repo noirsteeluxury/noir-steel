@@ -91,3 +91,14 @@ footer{background:#080808;color:white;padding:60px clamp(20px,7vw,110px) 35px;di
 .thank-you h1{font-family:Georgia,serif;font-size:clamp(42px,7vw,92px);font-weight:400;line-height:1.02;margin:18px 0 24px}
 .thank-you h1 em{color:var(--accent);font-weight:400}
 .thank-you p{max-width:600px;margin:0 auto 30px;line-height:1.75;color:rgba(18,18,17,.66)}
+
+/* Formularz premium — stan, błędy i wysyłanie */
+.contact-form [aria-invalid="true"]{border-color:#8b1e1e}
+.contact-form .field-error{color:#8b1e1e;font-size:11px;text-transform:none;letter-spacing:0;margin-top:-14px;margin-bottom:16px}
+.form-submit{position:relative;gap:10px;min-height:50px}
+.submit-spinner{display:none;width:17px;height:17px;border:2px solid rgba(255,255,255,.38);border-top-color:#fff;border-radius:50%;animation:noir-spin .75s linear infinite}
+.form-submit.is-loading .submit-spinner{display:block}
+.form-submit.is-loading .submit-label{opacity:.82}
+.form-status.success{color:#315c3b}
+@keyframes noir-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.submit-spinner{animation-duration:1.5s}}
