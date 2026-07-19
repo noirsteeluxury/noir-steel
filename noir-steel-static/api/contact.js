@@ -42,6 +42,30 @@ function checkRateLimit(ip) {
   return { allowed: true, retryAfter: 0 };
 }
 
+
+
+async function saveLeadToSupabase(supabaseUrl, secretKey, lead) {
+  const endpoint = `${supabaseUrl.replace(/\/$/, '')}/rest/v1/leads`;
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      apikey: secretKey,
+      Authorization: `Bearer ${secretKey}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation,resolution=ignore-duplicates'
+    },
+    body: JSON.stringify(lead)
+  });
+
+  const data = await response.json().catch(() => null);
+  if (response.ok) return data;
+
+  const error = new Error(data?.message || data?.details || 'Nie udało się zapisać zapytania w CRM.');
+  error.status = response.status;
+  error.code = data?.code;
+  throw error;
+}
+
 async function sendEmail(apiKey, payload, idempotencyKey) {
   let lastError;
   for (let attempt = 0; attempt < 2; attempt += 1) {
@@ -118,7 +142,12 @@ module.exports = async function handler(req, res) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
   if (!apiKey) return res.status(500).json({ error: 'Formularz nie został jeszcze aktywowany. Zadzwoń pod numer 508 951 101.' });
+  if (!supabaseUrl || !supabaseSecretKey) {
+    return res.status(500).json({ error: 'CRM nie został jeszcze aktywowany. Spróbuj ponownie za chwilę.' });
+  }
 
   const to = process.env.CONTACT_TO_EMAIL || 'kontakt@noirsteel.pl';
   const from = process.env.CONTACT_FROM_EMAIL || 'Noir Steel <formularz@noirsteel.pl>';
@@ -130,7 +159,33 @@ module.exports = async function handler(req, res) {
   const tableRows = rows.map(([key, value]) => `<tr><td style="padding:8px 12px;border-bottom:1px solid #e8e2d8;font-weight:bold">${esc(key)}</td><td style="padding:8px 12px;border-bottom:1px solid #e8e2d8">${esc(value)}</td></tr>`).join('');
   const plainRows = rows.map(([key, value]) => `${key}: ${value}`).join('\n');
 
+  const lead = {
+    request_id: requestId,
+    status: 'new',
+    name,
+    phone,
+    email,
+    city: city || null,
+    table_type: type || null,
+    extension_type: mechanism || null,
+    shape: shape || null,
+    dimensions: size || null,
+    mechanism: mechanism || null,
+    message: message || null,
+    source: 'website',
+    page_url: page || null,
+    consent_given: true,
+    utm_source: clean(body.utm_source, 160) || null,
+    utm_medium: clean(body.utm_medium, 160) || null,
+    utm_campaign: clean(body.utm_campaign, 200) || null,
+    utm_term: clean(body.utm_term, 200) || null,
+    utm_content: clean(body.utm_content, 200) || null,
+    gclid: clean(body.gclid, 300) || null
+  };
+
   try {
+    await saveLeadToSupabase(supabaseUrl, supabaseSecretKey, lead);
+
     await sendEmail(apiKey, {
       from,
       to: [to],
