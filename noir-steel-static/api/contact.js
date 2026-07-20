@@ -210,7 +210,13 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({ ok: true, request_id: requestId });
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('Contact form error:', {
+  message: error.message,
+  status: error.status,
+  code: error.code,
+  details: error.details,
+  error
+});
     return res.status(502).json({ error: 'Nie udało się wysłać wiadomości. Spróbuj ponownie lub skontaktuj się telefonicznie.' });
   }
 };
