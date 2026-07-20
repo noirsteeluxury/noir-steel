@@ -91,3 +91,26 @@ const m=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(m
    }
  });
 })();
+
+
+(function(){
+ const root=document.getElementById('crm-portfolio');
+ const grid=document.getElementById('crm-portfolio-grid');
+ if(!root||!grid)return;
+ const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+ fetch('/api/portfolio')
+  .then(response=>response.ok?response.json():Promise.reject(new Error('Błąd portfolio')))
+  .then(({items=[]})=>{
+    if(!items.length)return;
+    grid.innerHTML=items.map(item=>{
+      const photos=item.photos||[];
+      const galleryClass=photos.length===2?'model-gallery two':'model-gallery';
+      return `<article class="collection-item crm-portfolio-item"><div class="collection-head"><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.description||'Realizacja na indywidualne zamówienie')}</p></div><div class="${galleryClass}">${photos.map(photo=>`<img loading="lazy" data-large="${escapeHtml(photo.url)}" src="${escapeHtml(photo.url)}" alt="${escapeHtml(photo.alt)}">`).join('')}</div></article>`;
+    }).join('');
+    root.hidden=false;
+    grid.querySelectorAll('[data-large]').forEach(image=>image.addEventListener('click',()=>{
+      if(!lb)return;lb.querySelector('img').src=image.dataset.large;lb.classList.add('open');
+    }));
+  })
+  .catch(error=>console.warn('Nie udało się załadować nowych realizacji:',error));
+})();
