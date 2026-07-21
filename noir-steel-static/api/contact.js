@@ -144,7 +144,7 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.RESEND_API_KEY;
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY;
-  if (!apiKey) return res.status(500).json({ error: 'Formularz nie został jeszcze aktywowany. Zadzwoń pod numer 508 951 101.' });
+  if (!apiKey) return res.status(500).json({ error: 'Formularz nie został jeszcze aktywowany. Zadzwoń pod numer +48 508 951 101.' });
   if (!supabaseUrl || !supabaseSecretKey) {
     return res.status(500).json({ error: 'CRM nie został jeszcze aktywowany. Spróbuj ponownie za chwilę.' });
   }
@@ -201,8 +201,8 @@ module.exports = async function handler(req, res) {
         to: [email],
         reply_to: to,
         subject: 'Dziękujemy za kontakt z Noir Steel',
-        html: `<div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#121211"><p style="letter-spacing:.22em;font-size:12px">NOIR STEEL</p><h1 style="font-family:Georgia,serif;font-weight:400">Dziękujemy za przesłanie zapytania.</h1><p style="line-height:1.7">Otrzymaliśmy Twoją wiadomość. Odpowiemy najszybciej, jak to możliwe — zwykle w ciągu 24 godzin w dni robocze.</p><p style="line-height:1.7">W pilnej sprawie zadzwoń: <a href="tel:+48508951101">508 951 101</a>.</p><p style="margin-top:32px">Noir Steel<br><a href="https://noirsteel.pl">noirsteel.pl</a></p></div>`,
-        text: 'Dziękujemy za przesłanie zapytania do Noir Steel. Otrzymaliśmy Twoją wiadomość i odpowiemy najszybciej, jak to możliwe. W pilnej sprawie zadzwoń: 508 951 101.'
+        html: `<div style="font-family:Arial,sans-serif;max-width:620px;margin:auto;color:#121211"><p style="letter-spacing:.22em;font-size:12px">NOIR STEEL</p><h1 style="font-family:Georgia,serif;font-weight:400">Dziękujemy za przesłanie zapytania.</h1><p style="line-height:1.7">Otrzymaliśmy Twoją wiadomość. Odpowiemy najszybciej, jak to możliwe — zwykle w ciągu 24 godzin w dni robocze.</p><p style="line-height:1.7">W pilnej sprawie zadzwoń: <a href="tel:+48508951101">+48 508 951 101</a>.</p><p style="margin-top:32px">Noir Steel<br><a href="https://noirsteel.pl">noirsteel.pl</a></p></div>`,
+        text: 'Dziękujemy za przesłanie zapytania do Noir Steel. Otrzymaliśmy Twoją wiadomość i odpowiemy najszybciej, jak to możliwe. W pilnej sprawie zadzwoń: +48 508 951 101.'
       }, `confirmation/${requestId}`);
     } catch (confirmationError) {
       console.error('Confirmation email error:', confirmationError);

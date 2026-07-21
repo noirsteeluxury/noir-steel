@@ -86,7 +86,7 @@ const m=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(m
      await wait(350);
      location.href='/dziekujemy';
    }catch(error){
-     setStatus(error.message||'Wystąpił błąd. Zadzwoń pod numer 508 951 101 lub napisz na kontakt@noirsteel.pl.','error');
+     setStatus(error.message||'Wystąpił błąd. Zadzwoń pod numer +48 508 951 101 lub napisz na kontakt@noirsteel.pl.','error');
      setLoading(false);
    }
  });

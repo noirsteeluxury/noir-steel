@@ -1,13 +1,14 @@
-NOIR STEEL – SEO PACK 03: KATEGORIE
+NOIR STEEL — UX PACK 01
 
-Skopiuj zawartość tej paczki bezpośrednio do głównego folderu repozytorium.
-Zaakceptuj nadpisanie: index.html, stoliki-kawowe.html, sitemap.xml i vercel.json.
+Zawartość paczki skopiuj bezpośrednio do głównego folderu repozytorium i zaakceptuj nadpisanie 4 plików:
+- kontakt.html
+- assets/style.css
+- assets/script.js
+- api/contact.js
 
-Nowe strony:
-- /stoly-ze-spiekiem-kwarcowym
-- /stoly-ze-spiekiem-kwarcowym-rozkladane
-
-Aktualizowana strona:
-- /stoliki-kawowe
-
-Stare adresy /stoly-stale oraz /stoly-rozkladane zostaną przekierowane na nowe kategorie.
+Zmiany:
+- widoczny numer telefonu: +48 508 951 101
+- usunięty kształt ARENA
+- podpowiedź nad kształtami
+- powiększenie, cień i złota ramka po najechaniu
+- wyraźne zaznaczenie wybranego kształtu
