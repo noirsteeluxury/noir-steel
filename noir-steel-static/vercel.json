@@ -8,8 +8,18 @@
       "permanent": true
     },
     {
+      "source": "/stoly-stale",
+      "destination": "/stoly-ze-spiekiem-kwarcowym",
+      "permanent": true
+    },
+    {
+      "source": "/stoly-rozkladane",
+      "destination": "/stoly-ze-spiekiem-kwarcowym-rozkladane",
+      "permanent": true
+    },
+    {
       "source": "/stoly-ze-spieku-kwarcowego",
-      "destination": "/stol-ze-spiekiem-kwarcowym",
+      "destination": "/stoly-ze-spiekiem-kwarcowym",
       "permanent": true
     }
   ]

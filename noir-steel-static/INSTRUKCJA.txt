@@ -1,0 +1,13 @@
+NOIR STEEL – SEO PACK 03: KATEGORIE
+
+Skopiuj zawartość tej paczki bezpośrednio do głównego folderu repozytorium.
+Zaakceptuj nadpisanie: index.html, stoliki-kawowe.html, sitemap.xml i vercel.json.
+
+Nowe strony:
+- /stoly-ze-spiekiem-kwarcowym
+- /stoly-ze-spiekiem-kwarcowym-rozkladane
+
+Aktualizowana strona:
+- /stoliki-kawowe
+
+Stare adresy /stoly-stale oraz /stoly-rozkladane zostaną przekierowane na nowe kategorie.
