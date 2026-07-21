@@ -31,7 +31,7 @@ const m=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(m
  const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
  const uuid=()=>crypto.randomUUID?crypto.randomUUID().replaceAll('-',''):(Date.now().toString(36)+Math.random().toString(36).slice(2)+Math.random().toString(36).slice(2));
  const setStatus=(text,type='')=>{if(!status)return;status.textContent=text;status.className='form-status'+(type?' '+type:'');if(text)status.focus?.()};
- const setLoading=loading=>{if(!button)return;button.disabled=loading;button.classList.toggle('is-loading',loading);button.setAttribute('aria-busy',String(loading));if(label)label.textContent=loading?'Wysyłanie…':'Wyślij zapytanie'};
+ const lang=document.documentElement.lang||'pl';const tr=lang==='en'?{loading:'Sending…',send:'Send enquiry',phone:'Please enter a valid phone number.',email:'Please enter a valid email address.',required:'Complete the required fields and accept the consent.',safe:'Sending your enquiry securely…',failed:'The form could not be sent.',success:'Message sent. You will see a confirmation shortly.',fallback:'An error occurred. Call +48 508 951 101 or email kontakt@noirsteel.pl.'}:lang==='de'?{loading:'Wird gesendet…',send:'Anfrage senden',phone:'Bitte geben Sie eine gültige Telefonnummer ein.',email:'Bitte geben Sie eine gültige E-Mail-Adresse ein.',required:'Bitte füllen Sie die Pflichtfelder aus und stimmen Sie der Kontaktaufnahme zu.',safe:'Ihre Anfrage wird sicher gesendet…',failed:'Das Formular konnte nicht gesendet werden.',success:'Nachricht gesendet. Die Bestätigung wird gleich angezeigt.',fallback:'Ein Fehler ist aufgetreten. Rufen Sie +48 508 951 101 an oder schreiben Sie an kontakt@noirsteel.pl.'}:{loading:'Wysyłanie…',send:'Wyślij zapytanie',phone:'Podaj poprawny numer telefonu.',email:'Podaj poprawny adres e-mail.',required:'Uzupełnij wymagane pola i zaznacz zgodę.',safe:'Bezpiecznie wysyłamy Twoje zapytanie…',failed:'Nie udało się wysłać formularza.',success:'Wiadomość została wysłana. Za chwilę zobaczysz potwierdzenie.',fallback:'Wystąpił błąd. Zadzwoń pod numer +48 508 951 101 lub napisz na kontakt@noirsteel.pl.'};const setLoading=loading=>{if(!button)return;button.disabled=loading;button.classList.toggle('is-loading',loading);button.setAttribute('aria-busy',String(loading));if(label)label.textContent=loading?tr.loading:tr.send};
  const clearErrors=()=>{form.querySelectorAll('[aria-invalid="true"]').forEach(el=>el.removeAttribute('aria-invalid'));form.querySelectorAll('.field-error').forEach(el=>el.remove())};
  const showFieldError=(field,message)=>{field.setAttribute('aria-invalid','true');const error=document.createElement('p');error.className='field-error';error.textContent=message;field.closest('label')?.after(error)};
  const saveDraft=()=>{const data={name:value('name'),phone:value('phone'),email:value('email'),size:value('size'),type:value('type'),city:value('city'),message:value('message')};sessionStorage.setItem(draftKey,JSON.stringify(data))};
@@ -47,11 +47,11 @@ const m=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(m
    setStatus('');
    const phone=document.getElementById('phone');
    const email=document.getElementById('email');
-   if(phone&&phone.value.replace(/\D/g,'').length<7)showFieldError(phone,'Podaj poprawny numer telefonu.');
-   if(email&&!email.validity.valid)showFieldError(email,'Podaj poprawny adres e-mail.');
+   if(phone&&phone.value.replace(/\D/g,'').length<7)showFieldError(phone,tr.phone);
+   if(email&&!email.validity.valid)showFieldError(email,tr.email);
    if(!form.checkValidity()||form.querySelector('[aria-invalid="true"]')){
      form.reportValidity();
-     setStatus('Uzupełnij wymagane pola i zaznacz zgodę.','error');
+     setStatus(tr.required,'error');
      form.querySelector(':invalid,[aria-invalid="true"]')?.focus();
      return;
    }
@@ -64,7 +64,7 @@ const m=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(m
      consent:document.getElementById('consent')?.checked===true,page:location.href
    };
    setLoading(true);
-   setStatus('Bezpiecznie wysyłamy Twoje zapytanie…');
+   setStatus(tr.safe);
    try{
      let response,result;
      for(let attempt=0;attempt<2;attempt+=1){
@@ -73,20 +73,20 @@ const m=document.querySelector('.menu-btn'),n=document.querySelector('nav');if(m
          result=await response.json().catch(()=>({}));
          if(response.ok)break;
          if(attempt===0&&(response.status===429||response.status>=500)){await wait(900);continue}
-         throw new Error(result.error||'Nie udało się wysłać formularza.');
+         throw new Error(result.error||tr.failed);
        }catch(error){
          if(attempt===0&&!response){await wait(900);continue}
          throw error;
        }
      }
-     if(!response?.ok)throw new Error(result?.error||'Nie udało się wysłać formularza.');
+     if(!response?.ok)throw new Error(result?.error||tr.failed);
      sessionStorage.removeItem(draftKey);
      sessionStorage.setItem('noirLeadSubmitted','1');
-     setStatus('Wiadomość została wysłana. Za chwilę zobaczysz potwierdzenie.','success');
+     setStatus(tr.success,'success');
      await wait(350);
-     location.href='/dziekujemy';
+     location.href=lang==='pl'?'/dziekujemy':'/'+lang+'/dziekujemy';
    }catch(error){
-     setStatus(error.message||'Wystąpił błąd. Zadzwoń pod numer +48 508 951 101 lub napisz na kontakt@noirsteel.pl.','error');
+     setStatus(error.message||tr.fallback,'error');
      setLoading(false);
    }
  });

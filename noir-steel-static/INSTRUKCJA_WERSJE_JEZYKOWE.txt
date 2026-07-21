@@ -1,0 +1,21 @@
+NOIR STEEL – WERSJE JĘZYKOWE EN + DE
+
+Paczka jest patchem do aktualnej strony.
+
+Dodaje:
+- /en/ – wersję angielską
+- /de/ – wersję niemiecką
+- przełącznik PL / EN / DE w prawym górnym rogu
+- osobne adresy, canonical i hreflang dla Google
+- przetłumaczony formularz i strony potwierdzenia
+- przekierowanie domeny noirsteel.com do wersji angielskiej
+
+Wdrożenie:
+1. Skopiuj całą zawartość ZIP-a bezpośrednio do głównego folderu repozytorium strony.
+2. Nadpisz wskazane pliki.
+3. Commit i Push w GitHub Desktop.
+4. W Vercel dodaj domeny noirsteel.com oraz www.noirsteel.com do tego samego projektu.
+5. W OVH ustaw rekordy DNS dokładnie według wartości pokazanych przez Vercel.
+
+Polska wersja pozostaje pod noirsteel.pl.
+noirsteel.com kieruje na noirsteel.pl/en/.

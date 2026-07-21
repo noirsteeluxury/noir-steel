@@ -21,6 +21,28 @@
       "source": "/stoly-ze-spieku-kwarcowego",
       "destination": "/stoly-ze-spiekiem-kwarcowym",
       "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "noirsteel.com"
+        }
+      ],
+      "destination": "https://noirsteel.pl/en/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.noirsteel.com"
+        }
+      ],
+      "destination": "https://noirsteel.pl/en/:path*",
+      "permanent": true
     }
   ]
 }
