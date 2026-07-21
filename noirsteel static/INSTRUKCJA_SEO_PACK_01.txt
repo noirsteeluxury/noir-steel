@@ -1,0 +1,19 @@
+NOIR STEEL — SEO PACK 01
+
+Paczka zawiera pełną aktualną wersję strony oraz 3 nowe podstrony:
+- /stol-ze-spiekiem-kwarcowym
+- /stol-na-wymiar
+- /stol-loftowy
+
+Dodatkowo:
+- nowe linkowanie w menu i na stronie głównej,
+- FAQ + dane strukturalne Schema.org,
+- meta title, description, canonical i Open Graph,
+- zaktualizowana sitemap.xml,
+- przekierowanie 301 ze starego adresu /stoly-ze-spieku-kwarcowego.
+
+WDROŻENIE:
+1. Rozpakuj ZIP.
+2. Skopiuj całą zawartość folderu noir-steel-static do katalogu repozytorium GitHub, zastępując istniejące pliki.
+3. Zatwierdź zmiany w GitHub Desktop i wykonaj Push origin.
+4. Vercel wdroży stronę automatycznie.
