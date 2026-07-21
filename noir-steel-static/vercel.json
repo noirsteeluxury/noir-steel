@@ -6,6 +6,11 @@
       "source": "/index.html",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/stoly-ze-spieku-kwarcowego",
+      "destination": "/stol-ze-spiekiem-kwarcowym",
+      "permanent": true
     }
   ]
 }
