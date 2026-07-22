@@ -1,14 +1,8 @@
-NOIR STEEL — UX PACK 01
+NOIR STEEL – POPRAWKA MENU
 
-Zawartość paczki skopiuj bezpośrednio do głównego folderu repozytorium i zaakceptuj nadpisanie 4 plików:
-- kontakt.html
-- assets/style.css
-- assets/script.js
-- api/contact.js
+Wgraj zawartość tej paczki bezpośrednio do głównego folderu repozytorium i zaakceptuj nadpisanie plików.
 
-Zmiany:
-- widoczny numer telefonu: +48 508 951 101
-- usunięty kształt ARENA
-- podpowiedź nad kształtami
-- powiększenie, cień i złota ramka po najechaniu
-- wyraźne zaznaczenie wybranego kształtu
+Zmiany we wszystkich wersjach językowych:
+- górne menu: stoły ze spiekiem, rozkładane, stoliki kawowe, realizacje, wycena
+- link „Na wymiar” / „Custom made” / „Nach Maß” przeniesiony do stopki
+- układ zachowany na wszystkich podstronach PL, EN i DE
