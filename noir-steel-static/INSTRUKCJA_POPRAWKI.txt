@@ -1,0 +1,4 @@
+NOIR STEEL — poprawki tłumaczeń EN/DE
+
+Skopiuj zawartość tej paczki do głównego folderu repozytorium i zaakceptuj nadpisanie.
+Paczka zawiera poprawione foldery en, de oraz cztery przetłumaczone grafiki mechanizmów w assets/images/mechanizmy.
