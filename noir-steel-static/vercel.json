@@ -1,48 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "redirects": [
-    {
-      "source": "/index.html",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/stoly-stale",
-      "destination": "/stoly-ze-spiekiem-kwarcowym",
-      "permanent": true
-    },
-    {
-      "source": "/stoly-rozkladane",
-      "destination": "/stoly-ze-spiekiem-kwarcowym-rozkladane",
-      "permanent": true
-    },
-    {
-      "source": "/stoly-ze-spieku-kwarcowego",
-      "destination": "/stoly-ze-spiekiem-kwarcowym",
-      "permanent": true
-    },
+  "rewrites": [
     {
       "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "noirsteel.com"
-        }
-      ],
-      "destination": "https://noirsteel.pl/en/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.noirsteel.com"
-        }
-      ],
-      "destination": "https://noirsteel.pl/en/:path*",
-      "permanent": true
+      "destination": "/api/site-disabled"
     }
   ]
 }
